@@ -941,7 +941,9 @@ p {
   .map-panel {
     min-height: 360px;
   }
-  /* ==============================
+}
+
+/* ==============================
    Chat widget Marletty
    ============================== */
 
@@ -949,7 +951,7 @@ p {
   position: fixed;
   right: 26px;
   bottom: 26px;
-  z-index: 50;
+  z-index: 9999;
   font-family: var(--font-sans);
 }
 
@@ -1211,6 +1213,4 @@ p {
   .chat-widget.is-open .chat-toggle {
     display: none;
   }
-}
-
 }

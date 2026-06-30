@@ -6,6 +6,8 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
+from backend.agent.sanitizer import sanitize_input
+
 
 # Ruta base del proyecto
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -193,14 +195,25 @@ def health_check():
 
 @app.post("/api/chat")
 def chat(request: ChatRequest):
-    """Endpoint temporal del chat."""
+    """Endpoint temporal del chat con sanitización de entrada."""
 
-    response = build_mock_response(request.message)
+    sanitized = sanitize_input(request.message)
+
+    if not sanitized["safe"]:
+        return {
+            "response": sanitized["message"],
+            "session_id": request.session_id,
+            "from_cache": False,
+            "blocked": True,
+        }
+
+    response = build_mock_response(sanitized["message"])
 
     return {
         "response": response,
         "session_id": request.session_id,
         "from_cache": False,
+        "blocked": False,
     }
 
 
