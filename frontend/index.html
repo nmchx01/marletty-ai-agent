@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Panadería y Pastelería Marletty</title>
+  <title>Panadería y Pastelería Marletty | Duitama</title>
 
   <meta
     name="description"
@@ -15,93 +15,326 @@
 </head>
 
 <body>
-  <header class="hero">
-    <nav class="navbar">
-      <div class="brand">
-        <span class="brand-icon">🍞</span>
-        <span>Marletty</span>
+  <header class="site-header">
+    <a class="brand" href="#inicio" aria-label="Ir al inicio">
+      <span class="brand-mark">M</span>
+      <span class="brand-text">
+        <strong>Marletty</strong>
+        <small>Panadería & Pastelería</small>
+      </span>
+    </a>
+
+    <nav class="main-nav" aria-label="Navegación principal">
+      <a href="#coleccion">Colección</a>
+      <a href="#nosotros">Maison</a>
+      <a href="#productos">Productos</a>
+      <a href="#pedidos">Pedidos</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+
+    <a
+      class="header-cta"
+      href="https://wa.me/573205863534?text=Hola%20Marletty%2C%20quiero%20hacer%20un%20pedido"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Cotizar
+    </a>
+  </header>
+
+  <main id="inicio">
+    <section class="luxury-hero">
+      <div class="hero-copy">
+        <p class="eyebrow">Duitama · Boyacá · Desde 2012</p>
+
+        <h1>
+          El rincón dulce
+          <span>de Duitama</span>
+        </h1>
+
+        <p class="hero-description">
+          Pastelería artesanal, pan fresco, tortas personalizadas y sabores
+          creados con paciencia, detalle y respeto por los ingredientes.
+        </p>
+
+        <div class="hero-actions">
+          <a
+            class="btn btn-dark"
+            href="https://wa.me/573205863534?text=Hola%20Marletty%2C%20quiero%20cotizar%20un%20pedido"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Hacer pedido
+          </a>
+
+          <a class="btn btn-light" href="#productos">
+            Ver productos
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-showcase" aria-label="Presentación visual de productos Marletty">
+        <div class="showcase-card showcase-main">
+          <span class="showcase-label">Signature</span>
+          <div class="cake-illustration">
+            <span></span>
+          </div>
+          <h2>Tortas de autor</h2>
+          <p>Diseños personalizados para celebraciones memorables.</p>
+        </div>
+
+        <div class="showcase-mini top">
+          <span>🍞</span>
+          <p>Pan artesanal sin conservantes</p>
+        </div>
+
+        <div class="showcase-mini bottom">
+          <span>🐷</span>
+          <p>El Cochinito, producto insignia</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="coleccion" class="collection-section">
+      <div class="collection-header">
+        <p class="eyebrow dark">Temporada Marletty</p>
+        <h2>Una colección artesanal para cada momento</h2>
+      </div>
+
+      <div class="collection-grid">
+        <article class="collection-card large">
+          <div>
+            <span class="card-number">01</span>
+            <h3>Tortas personalizadas</h3>
+            <p>
+              Para cumpleaños, bautizos, eventos familiares y celebraciones
+              que merecen una pieza dulce hecha a la medida.
+            </p>
+          </div>
+          <a href="#pedidos">Cotizar diseño</a>
+        </article>
+
+        <article class="collection-card">
+          <span class="card-number">02</span>
+          <h3>Pan artesanal</h3>
+          <p>Fresco, cálido, sin conservantes y con sabor de panadería tradicional.</p>
+        </article>
+
+        <article class="collection-card">
+          <span class="card-number">03</span>
+          <h3>Repostería creativa</h3>
+          <p>Galletas, cubiertas de chocolate, pepitas de colores y detalles dulces.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="nosotros" class="story-section">
+      <div class="story-media">
+        <div class="story-emblem">
+          <span>24</span>
+          <small>Diciembre<br />2012</small>
+        </div>
+      </div>
+
+      <div class="story-copy">
+        <p class="eyebrow dark">Nuestra maison</p>
+
+        <h2>Artesanía dulce con identidad boyacense</h2>
+
+        <p>
+          Panadería y Pastelería Marletty nació el 24 de diciembre de 2012
+          con una idea sencilla: preparar productos frescos, cuidados y
+          cercanos, con el sabor de una panadería local y la presentación
+          de una pastelería especial.
+        </p>
+
+        <p>
+          Trabajamos preparaciones artesanales, sin químicos ni conservantes,
+          con bajo contenido de azúcares y frutas frescas de la región.
+        </p>
+
+        <div class="story-stats">
+          <div>
+            <strong>2012</strong>
+            <span>Fundación</span>
+          </div>
+
+          <div>
+            <strong>78346</strong>
+            <span>Matrícula mercantil</span>
+          </div>
+
+          <div>
+            <strong>6AM–8PM</strong>
+            <span>Todos los días</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="productos" class="products-section">
+      <div class="section-heading">
+        <p class="eyebrow dark">Los esenciales</p>
+        <h2>Productos Marletty</h2>
+        <p>
+          Una selección de productos pensados para celebrar, compartir
+          y acompañar los buenos momentos.
+        </p>
+      </div>
+
+      <div class="products-grid">
+        <article class="product-card featured-product">
+          <span class="product-tag">Producto insignia</span>
+          <div class="product-visual">🐷</div>
+          <h3>El Cochinito</h3>
+          <p>
+            Una preparación representativa de Marletty, reconocida por su
+            sabor artesanal y por hacer parte de nuestra identidad.
+          </p>
+        </article>
+
+        <article class="product-card">
+          <div class="product-visual">🎂</div>
+          <h3>Tortas personalizadas</h3>
+          <p>Diseños temáticos para cumpleaños, bautizos y eventos especiales.</p>
+        </article>
+
+        <article class="product-card">
+          <div class="product-visual">🍪</div>
+          <h3>Galletería</h3>
+          <p>Galletas cubiertas de chocolate con pepitas de colores.</p>
+        </article>
+
+        <article class="product-card">
+          <div class="product-visual">🥐</div>
+          <h3>Pan artesanal</h3>
+          <p>Pan fresco, sin conservantes, preparado todos los días.</p>
+        </article>
+
+        <article class="product-card">
+          <div class="product-visual">🍓</div>
+          <h3>Frutería</h3>
+          <p>Jugos, salpicón y ensaladas con frutas frescas de la región.</p>
+        </article>
+
+        <article class="product-card">
+          <div class="product-visual">☕</div>
+          <h3>Cafetería</h3>
+          <p>Café, aromáticas y bebidas frías o calientes para acompañar.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="pedidos" class="orders-section">
+      <div class="orders-intro">
+        <p class="eyebrow dark">Pedidos especiales</p>
+        <h2>Cotización personalizada por WhatsApp</h2>
+        <p>
+          En Marletty no manejamos una lista fija de precios. Cada pedido
+          se cotiza según tamaño, diseño, ingredientes, decoración y ocasión.
+        </p>
+      </div>
+
+      <div class="orders-steps">
+        <article>
+          <span>01</span>
+          <h3>Elige tu idea</h3>
+          <p>Cuéntanos qué producto necesitas y para qué ocasión.</p>
+        </article>
+
+        <article>
+          <span>02</span>
+          <h3>Envía referencia</h3>
+          <p>Para tortas, puedes enviar una foto del diseño que te gusta.</p>
+        </article>
+
+        <article>
+          <span>03</span>
+          <h3>Recibe cotización</h3>
+          <p>Te damos precio según los detalles reales del pedido.</p>
+        </article>
+
+        <article>
+          <span>04</span>
+          <h3>Recoge y disfruta</h3>
+          <p>Te esperamos en nuestra sede actual en Duitama.</p>
+        </article>
       </div>
 
       <a
-        class="nav-whatsapp"
-        href="https://wa.me/573205863534?text=Hola%20Marletty%2C%20quiero%20hacer%20un%20pedido"
+        class="btn btn-dark"
+        href="https://wa.me/573205863534?text=Hola%20Marletty%2C%20quiero%20cotizar%20un%20pedido"
         target="_blank"
         rel="noopener noreferrer"
       >
-        Pedir por WhatsApp
+        Cotizar mi pedido
       </a>
-    </nav>
-
-    <section class="hero-content">
-      <p class="eyebrow">Panadería y Pastelería en Duitama</p>
-
-      <h1>Panadería y Pastelería Marletty</h1>
-
-      <p class="tagline">
-        El rincón dulce de Duitama.
-      </p>
-
-      <p class="hero-description">
-        Tortas personalizadas, pan artesanal, repostería creativa,
-        frutería y cafetería con el sabor tradicional de Boyacá.
-      </p>
-
-      <div class="hero-actions">
-        <a
-          class="btn btn-primary"
-          href="https://wa.me/573205863534?text=Hola%20Marletty%2C%20quiero%20hacer%20un%20pedido"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Haz tu pedido
-        </a>
-
-        <a class="btn btn-secondary" href="#productos">
-          Ver productos
-        </a>
-      </div>
     </section>
-  </header>
 
-  <main>
-    <section id="productos" class="section">
-      <h2>Nuestros productos</h2>
+    <section class="service-band" aria-label="Beneficios de Marletty">
+      <div>
+        <strong>Artesanal</strong>
+        <span>Sin conservantes</span>
+      </div>
 
-      <div class="product-grid">
-        <article class="product-card">
-          <h3>Tortas personalizadas</h3>
-          <p>Diseños para cumpleaños, bautizos, eventos y celebraciones especiales.</p>
-        </article>
+      <div>
+        <strong>Fresco</strong>
+        <span>Frutas de la región</span>
+      </div>
 
-        <article class="product-card">
-          <h3>El Cochinito</h3>
-          <p>Producto insignia de Marletty, preparado artesanalmente.</p>
-        </article>
-
-        <article class="product-card">
-          <h3>Pan artesanal</h3>
-          <p>Pan fresco, sin conservantes, con sabor de panadería tradicional.</p>
-        </article>
+      <div>
+        <strong>Personalizado</strong>
+        <span>Cotización por WhatsApp</span>
       </div>
     </section>
 
-    <section class="section contact-preview">
-      <h2>Visítanos</h2>
+    <section id="contacto" class="contact-section">
+      <div class="contact-copy">
+        <p class="eyebrow dark">Visítanos</p>
+        <h2>Circunvalar #10-75 Esquina</h2>
+        <p>
+          Estamos en Duitama, Boyacá. La dirección Carrera 32 No. 9-06
+          corresponde a una ubicación histórica y ya no está operativa.
+        </p>
 
-      <p>
-        Estamos en Circunvalar #10-75 Esquina, Duitama, Boyacá.
-      </p>
+        <div class="contact-list">
+          <p><strong>Horario:</strong> Domingo a domingo, 6:00 a.m. a 8:00 p.m.</p>
+          <p><strong>WhatsApp pedidos:</strong> 320 586 3534</p>
+          <p><strong>Teléfonos:</strong> 310 695 5287 · 321 234 7104</p>
+          <p><strong>Email:</strong> marlettyduitama@gmail.com</p>
+          <p><strong>Instagram:</strong> @pasteleriamarlettyduitama</p>
+          <p><strong>Facebook:</strong> Panadería y Pastelería Marletty</p>
+        </div>
+      </div>
 
-      <p>
-        Atendemos domingo a domingo de 6:00 a.m. a 8:00 p.m.
-      </p>
+      <div class="map-panel">
+        <iframe
+          title="Mapa de Panadería y Pastelería Marletty"
+          src="https://www.google.com/maps?q=Circunvalar%20%2310-75%20Esquina%2C%20Duitama%2C%20Boyac%C3%A1%2C%20Colombia&output=embed"
+          loading="lazy"
+          allowfullscreen>
+        </iframe>
+      </div>
     </section>
   </main>
 
-  <footer class="footer">
-    <p>
-      © 2026 Panadería y Pastelería Marletty · Duitama, Boyacá
-    </p>
+  <footer class="luxury-footer">
+    <div>
+      <span class="footer-mark">M</span>
+      <h2>Panadería y Pastelería Marletty</h2>
+      <p>El rincón dulce de Duitama.</p>
+    </div>
+
+    <nav>
+      <a href="#inicio">Inicio</a>
+      <a href="#productos">Productos</a>
+      <a href="#pedidos">Pedidos</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+
+    <small>
+      © 2026 Marletty · Duitama, Boyacá · Productos artesanales
+    </small>
   </footer>
 
   <script src="/js/chat.js"></script>
