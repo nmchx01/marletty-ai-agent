@@ -7,6 +7,14 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 from backend.agent.sanitizer import sanitize_input
+from backend.agent.cache import (
+    add_message_to_history,
+    clear_session_history,
+    format_history_for_prompt,
+    get_cached_response,
+    set_cached_response,
+)
+
 
 
 # Ruta base del proyecto
@@ -195,7 +203,7 @@ def health_check():
 
 @app.post("/api/chat")
 def chat(request: ChatRequest):
-    """Endpoint temporal del chat con sanitización de entrada."""
+    """Endpoint temporal del chat con sanitización, caché e historial."""
 
     sanitized = sanitize_input(request.message)
 
@@ -207,21 +215,57 @@ def chat(request: ChatRequest):
             "blocked": True,
         }
 
-    response = build_mock_response(sanitized["message"])
+    clean_message = sanitized["message"]
+
+    add_message_to_history(
+        session_id=request.session_id,
+        role="user",
+        content=clean_message,
+    )
+
+    cached_response = get_cached_response(clean_message)
+
+    if cached_response:
+        add_message_to_history(
+            session_id=request.session_id,
+            role="assistant",
+            content=cached_response,
+        )
+
+        return {
+            "response": cached_response,
+            "session_id": request.session_id,
+            "from_cache": True,
+            "blocked": False,
+            "history": format_history_for_prompt(request.session_id),
+        }
+
+    response = build_mock_response(clean_message)
+
+    set_cached_response(clean_message, response)
+
+    add_message_to_history(
+        session_id=request.session_id,
+        role="assistant",
+        content=response,
+    )
 
     return {
         "response": response,
         "session_id": request.session_id,
         "from_cache": False,
         "blocked": False,
+        "history": format_history_for_prompt(request.session_id),
     }
 
 
 @app.post("/api/reset-session")
 def reset_session(request: ResetSessionRequest):
-    """Endpoint temporal para limpiar una sesión."""
+    """Limpia el historial de una sesión."""
+
+    was_cleared = clear_session_history(request.session_id)
 
     return {
-        "status": "cleared",
+        "status": "cleared" if was_cleared else "not_found",
         "session_id": request.session_id,
     }
