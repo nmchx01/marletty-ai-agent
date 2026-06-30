@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+venv/
+.venv/
+env/
+
+# Variables de entorno
+.env
+
+# FAISS vector store
+backend/vector_store/*
+!backend/vector_store/.gitkeep
+
+# PDFs privados o pesados
+backend/docs/*.pdf
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/

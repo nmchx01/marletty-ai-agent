@@ -1,0 +1,1 @@
+console.log("Marletty AI Agent frontend cargado correctamente.");
