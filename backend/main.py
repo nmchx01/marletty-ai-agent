@@ -6,7 +6,11 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
+from backend.agent.llm import generate_agent_response
+from backend.agent.rag import get_relevant_context
+
 from backend.agent.sanitizer import sanitize_input
+from backend.agent.prompts import build_system_prompt
 from backend.agent.cache import (
     add_message_to_history,
     clear_session_history,
@@ -96,6 +100,19 @@ def get_whatsapp_block() -> str:
     </div>
     """
 
+def ensure_whatsapp_redirect(response: str, user_message: str) -> str:
+    """
+    Asegura que toda respuesta con intención de pedido incluya
+    el bloque HTML de WhatsApp.
+    """
+
+    if not has_order_intent(user_message):
+        return response
+
+    if "whatsapp-redirect" in response:
+        return response
+
+    return response + get_whatsapp_block()
 
 def build_mock_response(message: str) -> str:
     """
@@ -203,7 +220,7 @@ def health_check():
 
 @app.post("/api/chat")
 def chat(request: ChatRequest):
-    """Endpoint temporal del chat con sanitización, caché e historial."""
+    """Endpoint del chat con sanitización, caché, historial, RAG y Groq."""
 
     sanitized = sanitize_input(request.message)
 
@@ -226,6 +243,8 @@ def chat(request: ChatRequest):
     cached_response = get_cached_response(clean_message)
 
     if cached_response:
+        cached_response = ensure_whatsapp_redirect(cached_response, clean_message)
+
         add_message_to_history(
             session_id=request.session_id,
             role="assistant",
@@ -237,10 +256,30 @@ def chat(request: ChatRequest):
             "session_id": request.session_id,
             "from_cache": True,
             "blocked": False,
-            "history": format_history_for_prompt(request.session_id),
         }
 
-    response = build_mock_response(clean_message)
+    try:
+        chat_history = format_history_for_prompt(request.session_id)
+        context = get_relevant_context(clean_message, top_k=3)
+
+        response = generate_agent_response(
+            user_message=clean_message,
+            context=context,
+            chat_history=chat_history,
+        )
+
+        response = ensure_whatsapp_redirect(response, clean_message)
+
+    except Exception as error:
+        print(f"Error generando respuesta del agente: {error}")
+
+        response = (
+            "En este momento no pude consultar toda la información de Marletty. "
+            "Pero puedo ayudarte con productos, horarios, ubicación o pedidos. "
+            "Para cotizaciones puedes escribirnos por WhatsApp."
+        )
+
+        response = ensure_whatsapp_redirect(response, clean_message)
 
     set_cached_response(clean_message, response)
 
@@ -255,9 +294,7 @@ def chat(request: ChatRequest):
         "session_id": request.session_id,
         "from_cache": False,
         "blocked": False,
-        "history": format_history_for_prompt(request.session_id),
     }
-
 
 @app.post("/api/reset-session")
 def reset_session(request: ResetSessionRequest):
