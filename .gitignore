@@ -1,18 +1,29 @@
-.env
-
+# Entorno virtual
 venv/
 .venv/
+env/
+
+# Python
 __pycache__/
 *.py[cod]
+*.pyo
+*.pyd
 
+# Variables sensibles
+.env
+
+# Documentos privados del RAG
 backend/docs/*.txt
 backend/docs/*.pdf
 
+# Vector store generado localmente
 backend/vector_store/*
 !backend/vector_store/.gitkeep
 
+# Sistema operativo
 .DS_Store
 Thumbs.db
 
+# IDE
 .vscode/
 .idea/

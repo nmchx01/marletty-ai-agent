@@ -106,14 +106,15 @@ def get_allowed_origins() -> list[str]:
     ]
 
 
+allowed_origins = get_allowed_origins()
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=get_allowed_origins(),
-    allow_credentials=True,
+    allow_origins=allowed_origins,
+    allow_credentials=False if "*" in allowed_origins else True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 
 # Servir archivos estáticos del frontend.
 app.mount("/css", StaticFiles(directory=FRONTEND_DIR / "css"), name="css")
