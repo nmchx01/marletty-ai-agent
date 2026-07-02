@@ -8,9 +8,19 @@ from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parents[1]
 ENV_PATH = BASE_DIR / ".env"
+if str(BASE_DIR) not in sys.path:
+    sys.path.insert(0, str(BASE_DIR))
+
+# Evita UnicodeEncodeError en consolas Windows configuradas con cp1252.
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 REQUIRED_FILES = [
     BASE_DIR / "backend" / "main.py",
+    BASE_DIR / "backend" / "api" / "routes.py",
+    BASE_DIR / "backend" / "api" / "schemas.py",
+    BASE_DIR / "backend" / "core" / "config.py",
+    BASE_DIR / "backend" / "services" / "chat.py",
     BASE_DIR / "backend" / "agent" / "loader.py",
     BASE_DIR / "backend" / "agent" / "rag.py",
     BASE_DIR / "backend" / "agent" / "llm.py",
@@ -124,6 +134,24 @@ def check_vector_store() -> bool:
     return False
 
 
+def check_app_import() -> bool:
+    print("\n🌐 Revisando creación de la aplicación...")
+    try:
+        from backend.main import app
+
+        route_paths = {route.path for route in app.routes}
+        required_paths = {"/", "/health", "/api/chat", "/api/reset-session"}
+        missing = required_paths - route_paths
+        if missing:
+            print_fail(f"Faltan rutas: {', '.join(sorted(missing))}")
+            return False
+        print_ok("backend.main:app y rutas principales")
+        return True
+    except Exception as error:
+        print_fail(f"No se pudo importar backend.main:app: {error}")
+        return False
+
+
 def check_docs() -> bool:
     print("\n📄 Revisando documentos RAG...")
 
@@ -152,6 +180,7 @@ def main() -> None:
         check_env(),
         check_docs(),
         check_vector_store(),
+        check_app_import(),
     ]
 
     print("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")

@@ -1,4 +1,3 @@
-import os
 import sys
 from pathlib import Path
 from typing import List
@@ -10,15 +9,14 @@ BASE_DIR = Path(__file__).resolve().parents[2]
 sys.path.append(str(BASE_DIR))
 
 
-from dotenv import load_dotenv
 from langchain_core.documents import Document
 from langchain_community.vectorstores import FAISS
 
 from backend.agent.embeddings import SafeGoogleEmbeddings
+from backend.core.config import get_settings
 
 
-VECTOR_STORE_DIR = BASE_DIR / "backend" / "vector_store"
-ENV_PATH = BASE_DIR / ".env"
+VECTOR_STORE_DIR = get_settings().vector_store_dir
 
 DEFAULT_TOP_K = 3
 
@@ -27,16 +25,7 @@ _vector_store = None
 
 def load_environment() -> None:
     """Carga variables de entorno necesarias para embeddings."""
-
-    load_dotenv(ENV_PATH)
-
-    google_api_key = os.getenv("GOOGLE_API_KEY")
-
-    if not google_api_key:
-        raise RuntimeError(
-            "No se encontró GOOGLE_API_KEY. "
-            "Crea un archivo .env en la raíz del proyecto con tu clave de Google."
-        )
+    get_settings().require_google_api_key()
 
 
 def validate_vector_store_exists() -> None:
@@ -153,6 +142,9 @@ def debug_search(query: str) -> None:
 
 
 if __name__ == "__main__":
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+
     if len(sys.argv) < 2:
         print('Uso: python backend/agent/rag.py "¿Dónde están ubicados?"')
         raise SystemExit(1)

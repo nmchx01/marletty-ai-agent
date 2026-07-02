@@ -15,6 +15,7 @@ __pycache__/
 # Documentos privados del RAG
 backend/docs/*.txt
 backend/docs/*.pdf
+!backend/docs/.gitkeep
 
 # Vector store generado localmente
 backend/vector_store/*

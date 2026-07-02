@@ -1,42 +1,19 @@
-import os
-from pathlib import Path
-
-from dotenv import load_dotenv
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_groq import ChatGroq
 
 from backend.agent.prompts import build_system_prompt
-
-
-BASE_DIR = Path(__file__).resolve().parents[2]
-ENV_PATH = BASE_DIR / ".env"
-
-DEFAULT_GROQ_MODEL = "llama-3.1-8b-instant"
-
-
-def load_environment() -> None:
-    """Carga variables de entorno necesarias para Groq."""
-
-    load_dotenv(ENV_PATH)
-
-    groq_api_key = os.getenv("GROQ_API_KEY")
-
-    if not groq_api_key:
-        raise RuntimeError(
-            "No se encontró GROQ_API_KEY. "
-            "Crea un archivo .env en la raíz del proyecto con tu clave de Groq."
-        )
+from backend.core.config import get_settings
 
 
 def get_llm() -> ChatGroq:
     """Crea el cliente de Groq."""
 
-    load_environment()
-
-    model_name = os.getenv("GROQ_MODEL", DEFAULT_GROQ_MODEL)
+    settings = get_settings()
+    settings.require_groq_api_key()
 
     return ChatGroq(
-        model=model_name,
+        model=settings.groq_model,
+        api_key=settings.groq_api_key,
         temperature=0.35,
         max_tokens=700,
     )

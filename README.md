@@ -75,7 +75,11 @@ Frontend HTML/CSS/JS
    ▼
 POST /api/chat
    │
-   ├── 1. Sanitizer
+   ├── 1. API router + schema Pydantic
+   │
+   ├── 2. Chat service
+   │
+   ├── 3. Sanitizer
    │       Bloquea prompt injection
    │
    ├── 2. Caché
@@ -93,7 +97,9 @@ POST /api/chat
    ├── 6. Groq LLM
    │       Modelo: llama-3.1-8b-instant
    │
-   ├── 7. WhatsApp redirect
+   ├── 7. Sanitización HTML de salida
+   │
+   ├── 8. WhatsApp redirect
    │       Si hay intención de pedido, agrega CTA
    │
    ▼
@@ -149,6 +155,13 @@ marletty-ai-agent/
 ├── backend/
 │   ├── __init__.py
 │   ├── main.py
+│   ├── api/
+│   │   ├── routes.py
+│   │   └── schemas.py
+│   ├── core/
+│   │   └── config.py
+│   ├── services/
+│   │   └── chat.py
 │   ├── agent/
 │   │   ├── __init__.py
 │   │   ├── rag.py
@@ -159,7 +172,8 @@ marletty-ai-agent/
 │   │   ├── embeddings.py
 │   │   └── llm.py
 │   ├── docs/
-│   │   └── documentos .txt o .pdf
+│   │   ├── .gitkeep
+│   │   └── documentos .txt o .pdf (solo locales)
 │   └── vector_store/
 │       ├── .gitkeep
 │       ├── index.faiss
@@ -174,9 +188,15 @@ marletty-ai-agent/
 ├── .env.example
 ├── .gitignore
 ├── requirements.txt
-├── TESTING.md
+├── tests/
+│   └── test_chat_service.py
+├── testing.md
 └── README.md
 ```
+
+`main.py` construye la aplicación; `api/` define el contrato HTTP,
+`services/` orquesta los casos de uso, `core/` centraliza configuración y
+`agent/` contiene las piezas especializadas de IA/RAG.
 
 ---
 
@@ -279,6 +299,11 @@ backend/docs/
 
 Los documentos reales están ignorados por Git para evitar subir información sensible.
 
+> `.gitignore` no deja de rastrear archivos agregados previamente. Si el
+> repositorio ya versionó documentos reales, revísalos y retíralos del índice
+> sin borrarlos del disco con
+> `git rm --cached backend/docs/*.txt backend/docs/*.pdf`.
+
 ---
 
 ## Generar vector store FAISS
@@ -324,6 +349,9 @@ index.faiss
 index.pkl
 .gitkeep
 ```
+
+El loader genera primero el índice en un directorio temporal. Solo reemplaza
+los dos archivos FAISS cuando el proceso termina correctamente.
 
 ---
 
@@ -562,7 +590,7 @@ El frontend renderiza esta respuesta con `innerHTML` para que el botón funcione
 Existe un archivo opcional:
 
 ```txt
-TESTING.md
+testing.md
 ```
 
 Incluye checklist para validar:
@@ -579,6 +607,13 @@ Comando recomendado para probar RAG directo:
 
 ```bash
 python backend/agent/rag.py "¿Dónde están ubicados?"
+```
+
+Pruebas automáticas sin consumo de APIs externas:
+
+```bash
+python -m unittest discover -s tests -v
+python scripts/preflight.py
 ```
 
 ---
@@ -604,8 +639,12 @@ En la Security List o Network Security Group abrir:
 
 ```txt
 22   SSH
-8000 FastAPI
+80   HTTP
+443  HTTPS
 ```
+
+En producción, expón Uvicorn solo en `127.0.0.1:8000` detrás de Nginx o
+Caddy; no publiques directamente el puerto 8000.
 
 ### 3. Conectarse por SSH
 
@@ -703,7 +742,8 @@ After=network.target
 User=ubuntu
 WorkingDirectory=/home/ubuntu/marletty-ai-agent
 Environment="PATH=/home/ubuntu/marletty-ai-agent/venv/bin"
-ExecStart=/home/ubuntu/marletty-ai-agent/venv/bin/python -m uvicorn backend.main:app --host 0.0.0.0 --port 8000
+EnvironmentFile=/home/ubuntu/marletty-ai-agent/.env
+ExecStart=/home/ubuntu/marletty-ai-agent/venv/bin/python -m uvicorn backend.main:app --host 127.0.0.1 --port 8000 --workers 1
 Restart=always
 RestartSec=5
 
@@ -730,6 +770,16 @@ Ver logs:
 ```bash
 journalctl -u marletty-ai-agent -f
 ```
+
+Mantén un solo worker mientras caché e historial estén en memoria. Más de un
+worker fragmentaría las sesiones entre procesos. Configura dominio, proxy
+inverso y TLS antes de abrir el servicio al público.
+
+### Seguridad del índice FAISS
+
+`index.pkl` se carga mediante pickle. Genéralo en la VM o transfiérelo por un
+canal confiable; nunca cargues un índice aportado por usuarios o descargado de
+una fuente no verificada.
 
 ---
 
@@ -774,7 +824,7 @@ Sí subir:
 .gitignore
 requirements.txt
 README.md
-TESTING.md
+testing.md
 frontend/
 backend/
 backend/vector_store/.gitkeep

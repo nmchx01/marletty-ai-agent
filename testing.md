@@ -1,5 +1,24 @@
 # Pruebas manuales — Marletty AI Agent
 
+## Validaciones automáticas
+
+```bash
+python -m compileall -q backend scripts tests
+python -m unittest discover -s tests -v
+python scripts/preflight.py
+```
+
+## Smoke test local
+
+Ejecuta `python -m uvicorn backend.main:app` y, en otra terminal:
+
+```bash
+curl http://127.0.0.1:8000/health
+curl -X POST http://127.0.0.1:8000/api/chat \
+  -H "Content-Type: application/json" \
+  -d '{"message":"¿Cuál es el horario?","session_id":"smoke-test"}'
+```
+
 ## Health
 
 - [ ] `GET /health` responde `status: ok`

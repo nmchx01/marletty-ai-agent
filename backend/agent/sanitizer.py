@@ -1,4 +1,6 @@
+import html
 import re
+from html.parser import HTMLParser
 
 
 BLOCKED_PATTERNS = [
@@ -61,3 +63,48 @@ def sanitize_input(user_message: str) -> dict:
         "safe": True,
         "message": user_message.strip(),
     }
+
+
+class _SafeHTMLParser(HTMLParser):
+    """Conserva formato básico y elimina atributos/etiquetas peligrosas."""
+
+    ALLOWED_TAGS = {"strong", "em", "br", "p", "div", "a"}
+
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=True)
+        self.parts: list[str] = []
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        if tag not in self.ALLOWED_TAGS:
+            return
+        safe_attrs: list[str] = []
+        attributes = dict(attrs)
+        if tag == "div" and attributes.get("class") == "whatsapp-redirect":
+            safe_attrs.append('class="whatsapp-redirect"')
+        if tag == "a":
+            href = attributes.get("href", "")
+            if href.startswith("https://wa.me/"):
+                safe_attrs.extend([
+                    f'href="{html.escape(href, quote=True)}"',
+                    'target="_blank"',
+                    'rel="noopener noreferrer"',
+                    'class="whatsapp-btn"',
+                ])
+        suffix = f" {' '.join(safe_attrs)}" if safe_attrs else ""
+        self.parts.append(f"<{tag}{suffix}>")
+
+    def handle_endtag(self, tag: str) -> None:
+        if tag in self.ALLOWED_TAGS and tag != "br":
+            self.parts.append(f"</{tag}>")
+
+    def handle_data(self, data: str) -> None:
+        self.parts.append(html.escape(data))
+
+
+def sanitize_output(model_response: str) -> str:
+    """Sanitiza HTML no confiable antes de que el frontend use innerHTML."""
+
+    parser = _SafeHTMLParser()
+    parser.feed(str(model_response))
+    parser.close()
+    return "".join(parser.parts).strip()

@@ -1,8 +1,9 @@
-import os
 from typing import List
 
 from langchain_core.embeddings import Embeddings
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
+
+from backend.core.config import get_settings
 
 
 class SafeGoogleEmbeddings(Embeddings):
@@ -15,15 +16,14 @@ class SafeGoogleEmbeddings(Embeddings):
     """
 
     def __init__(self) -> None:
-        model_name = os.getenv("GOOGLE_EMBEDDING_MODEL", "gemini-embedding-001")
-        output_dimension = os.getenv("GOOGLE_EMBEDDING_DIMENSION")
+        settings = get_settings()
 
         kwargs = {
-            "model": model_name,
+            "model": settings.google_embedding_model,
         }
 
-        if output_dimension:
-            kwargs["output_dimensionality"] = int(output_dimension)
+        if settings.google_embedding_dimension:
+            kwargs["output_dimensionality"] = settings.google_embedding_dimension
 
         self.client = GoogleGenerativeAIEmbeddings(**kwargs)
 

@@ -1,6 +1,6 @@
 import os
-import shutil
 import sys
+import tempfile
 from pathlib import Path
 from typing import List
 
@@ -11,20 +11,19 @@ BASE_DIR = Path(__file__).resolve().parents[2]
 sys.path.append(str(BASE_DIR))
 
 
-from dotenv import load_dotenv
 from langchain_core.documents import Document
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
 from pypdf import PdfReader
 
 from backend.agent.embeddings import SafeGoogleEmbeddings
+from backend.core.config import get_settings
 
 
 # Rutas principales del proyecto.
-BASE_DIR = Path(__file__).resolve().parents[2]
-DOCS_DIR = BASE_DIR / "backend" / "docs"
-VECTOR_STORE_DIR = BASE_DIR / "backend" / "vector_store"
-ENV_PATH = BASE_DIR / ".env"
+SETTINGS = get_settings()
+DOCS_DIR = SETTINGS.docs_dir
+VECTOR_STORE_DIR = SETTINGS.vector_store_dir
 
 CHUNK_SIZE = 500
 CHUNK_OVERLAP = 50
@@ -35,15 +34,7 @@ SUPPORTED_EXTENSIONS = [".txt", ".pdf"]
 def load_environment() -> None:
     """Carga variables de entorno desde el archivo .env."""
 
-    load_dotenv(ENV_PATH)
-
-    google_api_key = os.getenv("GOOGLE_API_KEY")
-
-    if not google_api_key:
-        raise RuntimeError(
-            "No se encontró GOOGLE_API_KEY. "
-            "Crea un archivo .env en la raíz del proyecto con tu clave de Google."
-        )
+    SETTINGS.require_google_api_key()
 
 def get_embedding_model() -> SafeGoogleEmbeddings:
     """Crea el modelo seguro de embeddings de Google."""
@@ -209,24 +200,8 @@ def split_documents(documents: List[Document]) -> List[Document]:
     return chunks
 
 
-def clear_existing_vector_store() -> None:
-    """Elimina el vector store anterior antes de regenerarlo."""
-
-    if VECTOR_STORE_DIR.exists():
-        for item in VECTOR_STORE_DIR.iterdir():
-            if item.name == ".gitkeep":
-                continue
-
-            if item.is_dir():
-                shutil.rmtree(item)
-            else:
-                item.unlink()
-
-    VECTOR_STORE_DIR.mkdir(parents=True, exist_ok=True)
-
-
 def build_and_save_vector_store(chunks: List[Document]) -> None:
-    """Genera embeddings, crea FAISS y lo guarda en disco."""
+    """Genera FAISS en temporal y reemplaza el índice solo al completarse."""
 
     embeddings = get_embedding_model()
 
@@ -234,11 +209,21 @@ def build_and_save_vector_store(chunks: List[Document]) -> None:
     vector_store = FAISS.from_documents(chunks, embeddings)
 
     print(f"💾 Guardando FAISS en: {VECTOR_STORE_DIR}")
-    vector_store.save_local(str(VECTOR_STORE_DIR))
+    VECTOR_STORE_DIR.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory(
+        prefix="marletty-faiss-", dir=VECTOR_STORE_DIR.parent
+    ) as temp_dir:
+        temp_path = Path(temp_dir)
+        vector_store.save_local(str(temp_path))
+        for filename in ("index.faiss", "index.pkl"):
+            os.replace(temp_path / filename, VECTOR_STORE_DIR / filename)
 
 
 def main() -> None:
     """Ejecuta el pipeline completo de carga de documentos."""
+
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
     print("🚀 Iniciando generación del vector store de Marletty...")
 
@@ -250,7 +235,6 @@ def main() -> None:
     chunks = split_documents(documents)
     print(f"✅ Chunks generados: {len(chunks)}")
 
-    clear_existing_vector_store()
     build_and_save_vector_store(chunks)
 
     print("🎉 Vector store generado correctamente.")
