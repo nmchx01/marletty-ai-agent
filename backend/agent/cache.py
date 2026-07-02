@@ -12,7 +12,7 @@ MAX_HISTORY_MESSAGES = 20  # 10 turnos: usuario + asistente
 STATIC_CACHE_ENTRIES = {
     "horario": (
         "Nuestro horario es de domingo a domingo, de "
-        "<strong>6:00 a.m. a 8:00 p.m.</strong> 🍞"
+        "<strong>6:00 a.m. a 8:00 p.m.</strong>"
     ),
     "dirección": (
         "Estamos ubicados en "
@@ -65,17 +65,17 @@ STATIC_CACHE_ENTRIES = {
         "y <strong>321 234 7104</strong>."
     ),
     "qué venden": (
-        "En Marletty encuentras tortas personalizadas, El Cochinito, "
+        "En Marletty encuentras tortas personalizadas, pastel de pollo, "
         "galletas cubiertas de chocolate, pan artesanal, frutería, café, "
         "aromáticas y bebidas frías o calientes."
     ),
     "que venden": (
-        "En Marletty encuentras tortas personalizadas, El Cochinito, "
+        "En Marletty encuentras tortas personalizadas, pastel de pollo, "
         "galletas cubiertas de chocolate, pan artesanal, frutería, café, "
         "aromáticas y bebidas frías o calientes."
     ),
     "productos": (
-        "En Marletty encuentras tortas personalizadas, El Cochinito, "
+        "En Marletty encuentras tortas personalizadas, pastel de pollo, "
         "galletas cubiertas de chocolate, pan artesanal, frutería, café, "
         "aromáticas y bebidas frías o calientes."
     ),
@@ -84,8 +84,8 @@ STATIC_CACHE_ENTRIES = {
         "Cada pedido se cotiza individualmente por WhatsApp según tamaño, "
         "diseño, ingredientes y ocasión."
     ),
-    "cochinito": (
-        "<strong>El Cochinito</strong> es uno de los productos insignia "
+    "pastel de pollo": (
+        "<strong>El pastel de pollo</strong> es uno de los productos insignia "
         "de Panadería y Pastelería Marletty. Es una preparación artesanal "
         "muy representativa de nuestra identidad."
     ),

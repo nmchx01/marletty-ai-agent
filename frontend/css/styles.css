@@ -84,6 +84,13 @@ p {
   gap: 12px;
 }
 
+.brand-logo {
+  width: 58px;
+  height: 58px;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+}
+
 .brand-mark,
 .footer-mark {
   width: 44px;
@@ -94,10 +101,19 @@ p {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-serif);
-  font-size: 1.45rem;
-  font-weight: 700;
   border: 1px solid var(--color-gold);
+}
+
+.brand-mark svg,
+.footer-mark svg,
+.auth-mark svg {
+  width: 28px;
+  height: 28px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .brand-text {
@@ -273,6 +289,22 @@ p {
   justify-content: flex-end;
 }
 
+.showcase-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(31, 18, 12, 0.06) 34%, rgba(31, 18, 12, 0.9) 100%);
+}
+
+.showcase-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 58% center;
+}
+
 .showcase-card::before {
   content: "";
   position: absolute;
@@ -291,6 +323,7 @@ p {
   letter-spacing: 0.18em;
   font-size: 0.74rem;
   font-weight: 900;
+  z-index: 1;
 }
 
 .cake-illustration {
@@ -329,6 +362,7 @@ p {
   font-size: 3.2rem;
   font-weight: 500;
   letter-spacing: -0.05em;
+  z-index: 1;
 }
 
 .showcase-card p {
@@ -336,6 +370,7 @@ p {
   max-width: 360px;
   color: rgba(246, 239, 228, 0.78);
   margin-bottom: 0;
+  z-index: 1;
 }
 
 .showcase-mini {
@@ -352,8 +387,12 @@ p {
   gap: 14px;
 }
 
-.showcase-mini span {
-  font-size: 2rem;
+.showcase-mini img {
+  width: 54px;
+  height: 54px;
+  flex: 0 0 54px;
+  border-radius: 16px;
+  object-fit: cover;
 }
 
 .showcase-mini p {
@@ -370,8 +409,8 @@ p {
 }
 
 .showcase-mini.bottom {
-  bottom: 88px;
-  left: 0;
+  bottom: 220px;
+  left: -8px;
 }
 
 .collection-section,
@@ -417,6 +456,8 @@ p {
 }
 
 .collection-card {
+  position: relative;
+  overflow: hidden;
   min-height: 310px;
   padding: 32px;
   border-radius: var(--radius-xl);
@@ -428,6 +469,30 @@ p {
   flex-direction: column;
   justify-content: space-between;
 }
+
+.collection-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-position: center;
+  background-size: cover;
+  opacity: 0.12;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+.collection-card:hover::before {
+  transform: scale(1.04);
+  opacity: 0.18;
+}
+
+.collection-card > * { position: relative; }
+.collection-cakes::before {
+  background-image: linear-gradient(rgba(31, 18, 12, 0.12), rgba(31, 18, 12, 0.72)), url("/assets/images/hero-torta-editorial.png");
+  opacity: 1;
+}
+.collection-cakes:hover::before { opacity: 1; }
+.collection-bread::before { background-image: url("/assets/images/MILOJA_TORTA_CORTES_LATERAL_ARRIBA_ESCALERA.png"); }
+.collection-cookies::before { background-image: url("/assets/images/GALLETAS_CERCA.png"); }
 
 .collection-card.large {
   grid-row: span 2;
@@ -497,26 +562,20 @@ p {
   overflow: hidden;
 }
 
-.story-media::before,
+.story-media > img {
+  width: 100%;
+  height: 100%;
+  min-height: 520px;
+  object-fit: cover;
+  object-position: center 45%;
+  filter: saturate(.78) contrast(1.03);
+}
+
 .story-media::after {
   content: "";
   position: absolute;
-  border-radius: 50%;
-  background: rgba(31, 18, 12, 0.08);
-}
-
-.story-media::before {
-  width: 360px;
-  height: 360px;
-  left: -90px;
-  bottom: -90px;
-}
-
-.story-media::after {
-  width: 220px;
-  height: 220px;
-  right: -40px;
-  top: -40px;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 40%, rgba(31, 18, 12, 0.48));
 }
 
 .story-emblem {
@@ -533,6 +592,7 @@ p {
   place-items: center;
   text-align: center;
   box-shadow: 0 25px 70px rgba(31, 18, 12, 0.24);
+  z-index: 1;
 }
 
 .story-emblem span {
@@ -581,6 +641,50 @@ p {
   font-size: 0.82rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
+}
+
+.product-gallery {
+  display: grid;
+  grid-template-columns: 1.35fr 0.8fr 0.8fr;
+  gap: 18px;
+  margin: 0 0 28px;
+}
+
+.product-gallery figure {
+  position: relative;
+  min-height: 280px;
+  margin: 0;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: var(--color-cream);
+  box-shadow: var(--shadow-card);
+}
+
+.product-gallery img {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  object-fit: cover;
+  transition: transform .55s ease;
+}
+
+.product-gallery figure:hover img { transform: scale(1.035); }
+
+.product-gallery figcaption {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  left: 16px;
+  padding: 12px 15px;
+  border: 1px solid rgba(255,255,255,.3);
+  border-radius: 999px;
+  background: rgba(31,18,12,.72);
+  backdrop-filter: blur(10px);
+  color: var(--color-cream);
+  font-size: .74rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .1em;
 }
 
 .products-grid {
@@ -637,7 +741,32 @@ p {
 
 .product-visual {
   margin-top: 28px;
-  font-size: 4rem;
+  width: 72px;
+  height: 72px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(185, 130, 59, 0.32);
+  border-radius: 50%;
+  background: rgba(215, 177, 109, 0.08);
+}
+
+.product-visual svg {
+  width: 48px;
+  height: 48px;
+  fill: none;
+  stroke: var(--color-brown);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.featured-product .product-visual {
+  border-color: rgba(215, 177, 109, 0.42);
+  background: rgba(215, 177, 109, 0.1);
+}
+
+.featured-product .product-visual svg {
+  stroke: var(--color-gold);
 }
 
 .product-card h3 {
@@ -858,6 +987,14 @@ p {
     grid-template-columns: repeat(2, 1fr);
   }
 
+  .product-gallery {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .product-gallery-main {
+    grid-column: span 2;
+  }
+
   .orders-steps {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -930,6 +1067,18 @@ p {
     grid-template-columns: 1fr;
   }
 
+  .product-gallery {
+    grid-template-columns: 1fr;
+  }
+
+  .product-gallery-main {
+    grid-column: auto;
+  }
+
+  .product-gallery figure {
+    min-height: 240px;
+  }
+
   .orders-section {
     border-radius: 34px;
   }
@@ -972,7 +1121,18 @@ p {
 }
 
 .chat-toggle span {
-  font-size: 1.8rem;
+  display: grid;
+  place-items: center;
+}
+
+.chat-toggle svg {
+  width: 32px;
+  height: 32px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .chat-toggle:hover {
@@ -1288,4 +1448,62 @@ p {
   .chat-form button {
     min-height: 44px;
   }
+}
+
+/* Acceso al asistente */
+.auth-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(31, 18, 12, 0.38);
+  backdrop-filter: blur(7px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.auth-overlay.is-visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.auth-card {
+  position: relative;
+  width: min(440px, 100%);
+  padding: 38px;
+  border: 1px solid rgba(215, 177, 109, 0.45);
+  border-radius: 28px;
+  background: #fffaf2;
+  color: var(--color-cocoa);
+  text-align: center;
+  box-shadow: 0 28px 80px rgba(31, 18, 12, 0.25);
+  transform: translateY(10px);
+  transition: transform 0.25s ease;
+}
+
+.auth-overlay.is-visible .auth-card { transform: translateY(0); }
+.auth-card h2 { margin: 8px 0 10px; font-family: var(--font-serif); font-size: 2rem; }
+.auth-card > p:not(.eyebrow):not(.auth-message) { margin: 0 auto 22px; line-height: 1.55; }
+.auth-card > small { display: block; margin-top: 16px; color: rgba(75, 47, 31, 0.68); }
+.auth-mark { display: inline-grid; place-items: center; width: 48px; height: 48px; margin-bottom: 15px; border-radius: 50%; background: var(--color-espresso); color: var(--color-gold); }
+.auth-dismiss { position: absolute; top: 14px; right: 16px; border: 0; background: transparent; color: var(--color-cocoa); font-size: 1.7rem; cursor: pointer; }
+.auth-google, .auth-email button { width: 100%; min-height: 48px; border: 0; border-radius: 999px; background: var(--color-espresso); color: white; font-weight: 800; cursor: pointer; }
+.auth-google span { display: inline-grid; place-items: center; width: 25px; height: 25px; margin-right: 8px; border-radius: 50%; background: white; color: #4285f4; }
+.auth-divider { display: flex; align-items: center; gap: 10px; margin: 16px 0; color: rgba(75, 47, 31, 0.55); font-size: .8rem; }
+.auth-divider::before, .auth-divider::after { content: ""; height: 1px; flex: 1; background: rgba(75, 47, 31, 0.15); }
+.auth-email { display: grid; grid-template-columns: 1fr auto; gap: 8px; }
+.auth-email input { min-width: 0; padding: 0 15px; border: 1px solid rgba(75, 47, 31, 0.2); border-radius: 999px; }
+.auth-email button { width: auto; padding: 0 16px; }
+.auth-consent { display: flex; gap: 9px; margin-top: 18px; text-align: left; font-size: .82rem; line-height: 1.4; cursor: pointer; }
+.auth-consent input { margin-top: 3px; accent-color: var(--color-espresso); }
+.auth-message { min-height: 20px; margin: 12px 0 0; color: #37693f; font-size: .84rem; }
+.auth-message.is-error { color: #8a2e21; }
+
+@media (max-width: 520px) {
+  .auth-card { padding: 32px 22px 26px; }
+  .auth-email { grid-template-columns: 1fr; }
+  .auth-email input { min-height: 46px; }
 }

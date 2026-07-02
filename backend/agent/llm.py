@@ -61,7 +61,7 @@ def generate_agent_response(
     if not clean_response:
         return (
             "Solo puedo ayudarte con información sobre Panadería "
-            "y Pastelería Marletty 🍞 ¿En qué te puedo ayudar?"
+            "y Pastelería Marletty. ¿En qué te puedo ayudar?"
         )
 
     return clean_response

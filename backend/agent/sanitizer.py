@@ -26,7 +26,7 @@ BLOCKED_PATTERNS = [
 
 SAFE_RESPONSE = (
     "Solo puedo ayudarte con información sobre Panadería "
-    "Marletty 🍞 ¿Tienes alguna pregunta sobre nuestros "
+    "Marletty. ¿Tienes alguna pregunta sobre nuestros "
     "productos, horarios o pedidos?"
 )
 

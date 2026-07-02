@@ -25,14 +25,14 @@ function createChatWidget() {
 
   widget.innerHTML = `
     <button class="chat-toggle" type="button" aria-label="Abrir chat de Marletty">
-      <span>💬</span>
+      <span aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M9 10h30v22H22L13 39v-7H9V10Z"/><path d="M16 18h16M16 24h11"/></svg></span>
     </button>
 
     <div class="chat-panel" aria-live="polite">
       <div class="chat-header">
         <div class="chat-header-info">
           <span class="chat-status-dot"></span>
-          <strong>Marlette 🍞</strong>
+          <strong>Marlette</strong>
           <small id="chatStatusText">En línea</small>
         </div>
 
@@ -161,10 +161,12 @@ function removeTypingMessage() {
 }
 
 async function sendMessageToBackend(message) {
+  const token = window.marlettyAuth?.getAccessToken();
   const response = await fetch("/api/chat", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`,
     },
     body: JSON.stringify({
       message,
@@ -180,10 +182,12 @@ async function sendMessageToBackend(message) {
 }
 
 async function resetSessionOnBackend() {
+  const token = window.marlettyAuth?.getAccessToken();
   const response = await fetch("/api/reset-session", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`,
     },
     body: JSON.stringify({
       session_id: sessionId,
@@ -199,7 +203,7 @@ async function resetSessionOnBackend() {
 
 function showWelcomeMessage() {
   addMessage(
-    "¡Hola! Soy Marlette 🍞, tu asistente virtual de Panadería Marletty. Puedo ayudarte con productos, horarios, ubicación, pedidos, tortas personalizadas y cotizaciones 🎂",
+    "¡Hola! Soy Marlette, tu asistente virtual de Panadería Marletty. Puedo ayudarte con productos, horarios, ubicación, pedidos, tortas personalizadas y cotizaciones.",
     "bot",
     false
   );
@@ -229,7 +233,7 @@ async function handleResetConversation() {
     clearChatMessages();
 
     addMessage(
-      "Listo 🍞 Limpié esta conversación. Podemos empezar de nuevo.",
+      "Listo. Limpié esta conversación. Podemos empezar de nuevo.",
       "bot",
       false,
       "system"
@@ -261,6 +265,10 @@ function setupChatEvents() {
   const input = document.getElementById("chatInput");
 
   toggle.addEventListener("click", () => {
+    if (!window.marlettyAuth?.isAuthenticated()) {
+      window.marlettyAuth?.showLogin();
+      return;
+    }
     widget.classList.add("is-open");
     input.focus();
     scrollChatToBottom();
@@ -277,6 +285,11 @@ function setupChatEvents() {
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
+
+    if (!window.marlettyAuth?.isAuthenticated()) {
+      window.marlettyAuth?.showLogin();
+      return;
+    }
 
     if (isSendingMessage) {
       return;

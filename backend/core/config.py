@@ -34,6 +34,8 @@ class Settings:
         else None
     )
     allowed_origins_raw: str = os.getenv("ALLOWED_ORIGINS", "*")
+    supabase_url: str = os.getenv("SUPABASE_URL", "").rstrip("/")
+    supabase_anon_key: str = os.getenv("SUPABASE_ANON_KEY", "")
 
     @property
     def allowed_origins(self) -> list[str]:
@@ -52,6 +54,10 @@ class Settings:
     def require_groq_api_key(self) -> None:
         if not self.groq_api_key:
             raise RuntimeError("No se encontró GROQ_API_KEY en el entorno.")
+
+    @property
+    def supabase_enabled(self) -> bool:
+        return bool(self.supabase_url and self.supabase_anon_key)
 
 
 @lru_cache(maxsize=1)

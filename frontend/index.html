@@ -17,7 +17,11 @@
 <body>
   <header class="site-header">
     <a class="brand" href="#inicio" aria-label="Ir al inicio">
-      <span class="brand-mark">M</span>
+      <img
+        class="brand-logo"
+        src="/assets/images/LOGO%20FONDO%20BLANCO%20MARLETTY.jpg"
+        alt=""
+      />
       <span class="brand-text">
         <strong>Marletty</strong>
         <small>Panadería & Pastelería</small>
@@ -75,22 +79,25 @@
 
       <div class="hero-showcase" aria-label="Presentación visual de productos Marletty">
         <div class="showcase-card showcase-main">
+          <img
+            class="showcase-photo"
+            src="/assets/images/hero-torta-editorial.png"
+            alt="Torta artesanal de chocolate con fresas"
+            fetchpriority="high"
+          />
           <span class="showcase-label">Signature</span>
-          <div class="cake-illustration">
-            <span></span>
-          </div>
           <h2>Tortas de autor</h2>
           <p>Diseños personalizados para celebraciones memorables.</p>
         </div>
 
         <div class="showcase-mini top">
-          <span>🍞</span>
-          <p>Pan artesanal sin conservantes</p>
+          <img src="/assets/images/GALLETAS_CERCA.png" alt="" />
+          <p>Galletería artesanal</p>
         </div>
 
         <div class="showcase-mini bottom">
-          <span>🐷</span>
-          <p>El Cochinito, producto insignia</p>
+          <img src="/assets/images/MILOJA_TORTA_CORTES_LATERAL_ARRIBA_ESCALERA.png" alt="" />
+          <p>Repostería de autor</p>
         </div>
       </div>
     </section>
@@ -102,7 +109,7 @@
       </div>
 
       <div class="collection-grid">
-        <article class="collection-card large">
+        <article class="collection-card large collection-cakes">
           <div>
             <span class="card-number">01</span>
             <h3>Tortas personalizadas</h3>
@@ -114,13 +121,13 @@
           <a href="#pedidos">Cotizar diseño</a>
         </article>
 
-        <article class="collection-card">
+        <article class="collection-card collection-bread">
           <span class="card-number">02</span>
           <h3>Pan artesanal</h3>
           <p>Fresco, cálido, sin conservantes y con sabor de panadería tradicional.</p>
         </article>
 
-        <article class="collection-card">
+        <article class="collection-card collection-cookies">
           <span class="card-number">03</span>
           <h3>Repostería creativa</h3>
           <p>Galletas, cubiertas de chocolate, pepitas de colores y detalles dulces.</p>
@@ -130,6 +137,11 @@
 
     <section id="nosotros" class="story-section">
       <div class="story-media">
+        <img
+          src="/assets/images/MarlettyAdentro-enhanced.png"
+          alt="Interior de Panadería y Pastelería Marletty en Duitama"
+          loading="lazy"
+        />
         <div class="story-emblem">
           <span>24</span>
           <small>Diciembre<br />2012</small>
@@ -182,11 +194,26 @@
         </p>
       </div>
 
+      <div class="product-gallery" aria-label="Selección fotográfica de productos Marletty">
+        <figure class="product-gallery-main">
+          <img src="/assets/images/GALLETAS_LATERAL_ARRIBA.png" alt="Selección de galletas artesanales Marletty" loading="lazy" />
+          <figcaption>Galletería artesanal</figcaption>
+        </figure>
+        <figure>
+          <img src="/assets/images/TORTA_CHOCOLATE_CORTES.png" alt="Porciones de torta de chocolate" loading="lazy" />
+          <figcaption>Chocolate y texturas</figcaption>
+        </figure>
+        <figure>
+          <img src="/assets/images/MILOJA_TORTA_CORTES_LATERAL_ARRIBA_ESCALERA.png" alt="Milhojas y porciones de torta Marletty" loading="lazy" />
+          <figcaption>Repostería para compartir</figcaption>
+        </figure>
+      </div>
+
       <div class="products-grid">
         <article class="product-card featured-product">
           <span class="product-tag">Producto insignia</span>
-          <div class="product-visual">🐷</div>
-          <h3>El Cochinito</h3>
+          <div class="product-visual" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M10 48h44L48 25H16L10 48Z"/><path d="M16 25c7-11 25-11 32 0M21 34h22m-17 7h12"/></svg></div>
+          <h3>Pastel de pollo</h3>
           <p>
             Una preparación representativa de Marletty, reconocida por su
             sabor artesanal y por hacer parte de nuestra identidad.
@@ -194,31 +221,31 @@
         </article>
 
         <article class="product-card">
-          <div class="product-visual">🎂</div>
+          <div class="product-visual" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M13 30h38v23H13zM18 30V20h28v10M24 20v-6m16 6v-6"/><path d="M22 38c3 4 7 4 10 0 3 4 7 4 10 0"/></svg></div>
           <h3>Tortas personalizadas</h3>
           <p>Diseños temáticos para cumpleaños, bautizos y eventos especiales.</p>
         </article>
 
         <article class="product-card">
-          <div class="product-visual">🍪</div>
+          <div class="product-visual" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="21"/><circle cx="24" cy="24" r="2"/><circle cx="40" cy="27" r="2"/><circle cx="29" cy="41" r="2"/><circle cx="44" cy="41" r="2"/></svg></div>
           <h3>Galletería</h3>
           <p>Galletas cubiertas de chocolate con pepitas de colores.</p>
         </article>
 
         <article class="product-card">
-          <div class="product-visual">🥐</div>
+          <div class="product-visual" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M13 20c-5 13 2 28 15 32 12 4 25-2 30-13-7 5-17 4-23-3-6-6-7-15-3-22-8-2-15 0-19 6Z"/><path d="M20 18c1 8 5 14 12 18m9-20c-2 8-1 15 4 22"/></svg></div>
           <h3>Pan artesanal</h3>
           <p>Pan fresco, sin conservantes, preparado todos los días.</p>
         </article>
 
         <article class="product-card">
-          <div class="product-visual">🍓</div>
+          <div class="product-visual" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M18 24c2 18 7 28 14 32 7-4 12-14 14-32-8-5-20-5-28 0Z"/><path d="M32 23c-5-7-11-8-15-5m15 5c5-7 11-8 15-5M25 32h.1m14 0h.1M32 43h.1"/></svg></div>
           <h3>Frutería</h3>
           <p>Jugos, salpicón y ensaladas con frutas frescas de la región.</p>
         </article>
 
         <article class="product-card">
-          <div class="product-visual">☕</div>
+          <div class="product-visual" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M14 24h34v16c0 8-7 14-17 14S14 48 14 40V24Z"/><path d="M48 29h3c8 0 8 12 0 12h-3M23 18c-3-4 3-6 0-10m12 10c-3-4 3-6 0-10"/></svg></div>
           <h3>Cafetería</h3>
           <p>Café, aromáticas y bebidas frías o calientes para acompañar.</p>
         </article>
@@ -320,7 +347,9 @@
 
   <footer class="luxury-footer">
     <div>
-      <span class="footer-mark">M</span>
+      <span class="footer-mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48"><path d="M24 39V13m0 8c-7 0-11-4-12-9 7 0 11 4 12 9Zm0 8c-7 0-11-4-12-9 7 0 11 4 12 9Zm0-8c7 0 11-4 12-9-7 0-11 4-12 9Zm0 8c7 0 11-4 12-9-7 0-11 4-12 9Z"/></svg>
+      </span>
       <h2>Panadería y Pastelería Marletty</h2>
       <p>El rincón dulce de Duitama.</p>
     </div>
@@ -337,6 +366,7 @@
     </small>
   </footer>
 
-  <script src="/js/chat.js"></script>
+  <script type="module" src="/js/auth.js"></script>
+  <script src="/js/chat.js" defer></script>
 </body>
 </html>

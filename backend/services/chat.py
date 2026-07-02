@@ -41,7 +41,7 @@ class ChatService:
             '\n<div class="whatsapp-redirect">'
             "<p>Para cotizar tu pedido, contáctanos por WhatsApp:</p>"
             f'<a href="{WHATSAPP_URL}" target="_blank" rel="noopener noreferrer" '
-            'class="whatsapp-btn">💬 Cotizar por WhatsApp</a></div>'
+            'class="whatsapp-btn">Cotizar por WhatsApp</a></div>'
         )
 
     def _safe_response(self, response: str, message: str) -> str:

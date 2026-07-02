@@ -29,7 +29,7 @@ curl -X POST http://127.0.0.1:8000/api/chat \
 ## RAG
 
 - [ ] `python backend/agent/rag.py "¿Dónde están ubicados?"`
-- [ ] `python backend/agent/rag.py "¿Qué es El Cochinito?"`
+- [ ] `python backend/agent/rag.py "¿Qué es el pastel de pollo?"`
 - [ ] `python backend/agent/rag.py "¿Cómo puedo cotizar una torta personalizada?"`
 
 ## Chat
@@ -45,7 +45,7 @@ curl -X POST http://127.0.0.1:8000/api/chat \
 - [ ] Horario
 - [ ] Ubicación
 - [ ] Productos
-- [ ] Cochinito
+- [ ] Pastel de pollo
 - [ ] Cotización
 - [ ] WhatsApp
 - [ ] Redes sociales

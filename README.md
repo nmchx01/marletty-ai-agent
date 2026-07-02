@@ -493,13 +493,13 @@ Además debe incluir el botón de WhatsApp.
 **Usuario:**
 
 ```txt
-¿Qué es El Cochinito?
+¿Qué es el pastel de pollo?
 ```
 
 **Respuesta esperada:**
 
 ```txt
-El Cochinito es uno de los productos insignia de Panadería y Pastelería Marletty.
+El pastel de pollo es uno de los productos insignia de Panadería y Pastelería Marletty.
 ```
 
 ### Ubicación
@@ -872,3 +872,20 @@ copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.
 ```
+# Login con Supabase y Google
+
+El chatbot exige una sesión válida de Supabase tanto en el navegador como en
+`/api/chat` y `/api/reset-session`. Para activarlo:
+
+1. Crea un proyecto en Supabase y ejecuta `scripts/supabase.sql` en SQL Editor.
+2. En **Authentication > Providers**, activa Google y configura las credenciales
+   OAuth de Google Cloud. Agrega a Google la URL callback que muestra Supabase.
+3. En **Authentication > URL Configuration**, registra la URL pública del sitio
+   (y `http://localhost:8000` durante desarrollo).
+4. Copia `SUPABASE_URL` y la clave pública `SUPABASE_ANON_KEY` al archivo `.env`.
+   Nunca uses `service_role` en estas variables.
+5. Reinicia FastAPI.
+
+También se ofrece acceso por enlace mágico enviado al correo. El perfil se
+guarda en `customer_profiles`; `marketing_consent` solo se activa cuando la
+persona marca voluntariamente la casilla de ofertas.
