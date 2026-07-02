@@ -11,6 +11,10 @@ env/
 # Variables de entorno
 .env
 
+backend/docs/*.txt
+backend/docs/*.pdf
+
+
 # FAISS vector store
 backend/vector_store/*
 !backend/vector_store/.gitkeep
